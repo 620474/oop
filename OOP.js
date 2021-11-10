@@ -75,7 +75,7 @@ class Salad extends Food {
     }
 
     calculateCalories() {
-        return (this.getCalories()*this.weight) / 100;
+        return (this.getCalories() * this.weight) / 100;
     }
 
 }
@@ -107,16 +107,18 @@ class Drink extends Food {
 
 class Order {
     constructor() {
-        this.order = []
-        this.paid = false
+        this.order = [];
+        this.paid = false;
     }
 
-    addFood(props) {
+    addFood(props, quantity = 1) {
         if (!this.paid) {
-            this.order.push(props);
+            for (let i = 0; i < quantity; i++) {
+                this.order.push(props)
+            }
             return this;
         } else {
-            console.log('You have already paid for the order')
+            console.log('You have already paid for the order');
         }
     }
 
@@ -144,15 +146,20 @@ class Order {
         }
         return totalCalories;
     }
+
     pay() {
         this.paid = true;
     }
 }
 
-const hum = new Order()
-hum.addFood(new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE)).addFood(new Drink(Drink.Cola)).addFood(new Salad(Salad.Cesar, 150))
-console.log(hum.getTotalCalories())
-hum.pay()
-hum.addFood(new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE))
+const firstOrder = new Order()
+firstOrder.addFood(new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE), 2).addFood(new Salad(Salad.Cesar,150),2)
+console.log(firstOrder.getTotalCalories())
+console.log(firstOrder.getTotalPrice())
+firstOrder.deleteFood(2)
+console.log(firstOrder.getTotalPrice())
+firstOrder.pay()
+firstOrder.addFood(new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE))
+
 
 
